@@ -1,0 +1,202 @@
+
+Para resolver as questões a seguir, você deve apresentar o SQL que utilizou para chegar a resposta
+e a resposta. utilize o JOIN para junção de Tabelas:
+Conte quantos emprestimos foi realizado do Livro com titulo: Banco de Dados Relacionais
+select count (*)
+from emprestimo e
+join livro l on e.codliv = l.codliv
+where l.titliv = 'Banco de Dados Relacionais'
+
+Calcule a Média de emprestimos realizados no dia 10/02/2025;
+select 
+from emprestimo e
+join livro l on e.codliv = l.codliv
+where e.datemp = '10/02/2025'
+
+
+
+
+
+Liste todos os titulos dos livros emprestados no dia 11/01/2025;
+
+Quais os titulos dos livros emprestados pela Helena Martins?
+select l.titliv
+from emprestimo e
+join livro l on e.codliv = e.codliv
+join usuario u on e.codusu = u.codusu
+where nomusu = 'helena martins'
+
+select * from emprestimo where codusu = 8
+select * from livro where codliv in (40,14,4) 
+
+Quantos emprestimos o Bruno Souza já realizou?
+
+Qual o nome do usuário que emprestou o Livro Cloud Computing?
+select usuario.nomusu
+from emprestimo e
+join livro l on l.codliv = e.codliv
+join usuario u on u.codusu = e.codusu
+where l.titliv = 'Cloud Computing'
+
+Qual data teve maior volume de reservas? Se haver empate liste todas.
+select datres, count(codres) as Reserva_dia
+from reserva
+group by datre
+order by Reserva_dia desc
+limit 5
+
+Qual o titulo do livro reservado pela usuária Fernanda Costa?
+select l.titliv
+from reserva r
+join usuario u on u.codusu = r.codusu
+join livro l on l.codliv = r.codliv
+where u.nomusu = 'Fernanda Costa'
+
+
+Quantas reservas o usuario Gustavo Pereira fez?
+select count(*)
+from reserva r
+join usuario u on u.codusu = r.codusu
+where u.nomusu = 'Gustavo Pereira'
+
+Qual é o titulo do Livro mais reservado?
+select l.titliv, count(*)
+from reserva r
+join livro l on r.codliv = l.codliv
+group by l.titliv
+limit 2
+
+Qual o nome da Biblioteca com maior numero de reservas?
+select b.nombib, count(*)
+from biblioteca b
+join reserva r on r.codliv = l.codliv
+join livro l on l.codbib = b.codbib
+group by b.nombib
+
+
+Qual o nome da Biblioteca com maior numero de Emprestimos?
+
+Quais os titulos dosb Livros que estao alocados na Biblioteca Central?
+
+Quais os titulos dos Livros que estao alocados na Biblioteca Tecnológica?
+Qual o nome dos usuários que emprestaram livros da Biblioteca Universitária?
+select count (*)
+from emprestimo e
+join livro l on e.codliv = l.codliv
+where l.titliv = 'Banco de Dados Relacionais'
+
+select *
+from biblioteca b
+join livro l on b.codbib = l.codbib
+where l.titliv = 'Banco de Dados Relacionais'
+
+
+
+--selecionar  todos os registros da tabela EMPRESTIMO
+SELECT *
+FROM EMPRESTIMO
+--codigo, nome, e quantidad
+--selecionar  todos os registros da tabela EMPRESTIMO
+SELECT *
+FROM EMPRESTIMO
+--codigo, nome, e quantidade de emprestimo do usuario 2
+SELECT USUARIO.CODUSU,NOMUSU,COUNT(*)
+FROM USUARIO, EMPRESTIMO
+WHERE EMPRESTIMO.CODUSU = USUARIO.CODUSU AND EMPRESTIMO.CODUSU=2
+GROUP BY USUARIO.NOMUSU,USUARIO.CODUSU
+--Selecione a data (exiba a coluna com o nome "Data de Empréstimo") do último empréstimo realizado.
+SELECT EMPRESTIMO.DATEMP
+FROM EMPRESTIMO
+ORDER BY EMPRESTIMO.DATEMP DESC
+LIMIT 1
+--Selecione o código, nome e quantidade de empréstimos de cada biblioteca
+SELECT BIBLIOTECA.CODBIB,NOMBIB,COUNT(*)
+FROM BIBLIOTECA,EMPRESTIMO,LIVRO
+WHERE EMPRESTIMO.CODLIV = LIVRO.CODLIV AND BIBLIOTECA.CODBIB = LIVRO.CODBIB
+GROUP BY BIBLIOTECA.NOMBIB,BIBLIOTECA.CODBIB
+--Selecione o código, nome e quantidade de reservas de cada biblioteca.
+SELECT BIBLIOTECA.CODBIB,NOMBIB,COUNT(*)
+FROM BIBLIOTECA,RESERVA,LIVRO
+WHERE RESERVA.CODLIV = LIVRO.CODLIV AND BIBLIOTECA.CODBIB = LIVRO.CODBIB
+GROUP BY BIBLIOTECA.NOMBIB,BIBLIOTECA.CODBIB
+--Conte a quantidade de empréstimos de 2025.
+SELECT COUNT(*)
+FROM EMPRESTIMO
+WHERE EMPRESTIMO.DATEMP <= '31/12/2025' 
+--Selecione o código, nome e quantidade de reservas de todos os usuários.
+SELECT USUARIO.CODUSU,NOMUSU,COUNT(*)
+FROM USUARIO,RESERVA
+WHERE USUARIO.CODUSU = RESERVA.CODUSU 
+GROUP BY USUARIO.CODUSU,USUARIO.NOMUSU
+--Selecione somente os usuários com duas ou mais reservas.
+SELECT USUARIO.CODUSU,NOMUSU,COUNT(*)
+FROM USUARIO,RESERVA
+WHERE USUARIO.CODUSU = RESERVA.CODUSU 
+GROUP BY USUARIO.CODUSU,USUARIO.NOMUSU 
+HAVING COUNT(*)>= 2
+
+--Qual o título do livro com o maior número de empréstimos?
+SELECT LIVRO.TITLIV,COUNT(CODEMP)
+FROM LIVRO,EMPRESTIMO
+WHERE LIVRO.CODLIV = EMPRESTIMO.CODLIV
+GROUP BY LIVRO.TITLIV
+ORDER BY COUNT(CODEMP) DESC
+LIMIT 2
+
+--Qual o nome do usuario com o maior numero de reservas?
+select usuario.nomusu, count(*)
+from reserva,usuario
+where usuario.codusu = reserva.codusu
+group by codus
+
+
+
+--Quais titulos dos livros da biblioteca 1 já foram emprestados pelo usuário 3?
+
+--Inserçao de um usuario
+insert into usuario(codusu, nomusu, endusu, cepusu) values(50, 'Maria Luiza Z.', 'Rua 234', 89900000);
+
+select *
+from usuario
+where codusu = 50
+
+--Inserçao de uma reserva(indicando as colunas).
+insert into reserva (codres, codliv, codusu, datres) values(30,44,50,'13/04/2026');
+
+select *
+from reserva
+where codres = 30
+
+
+create table paciente(
+	codpac int not null primary key ,	
+	nome varchar (45) not null,
+	datnasc date,
+	sexo varchar (2),
+	cpf varchar (14) unique,
+	telefone varchar (14)
+);
+
+create table medico(
+	codmed int not null primary key ,	
+	nome varchar (80) not null,
+	CRM int,
+	telefone varchar (14)
+);
+
+create  table agendaConsulta(
+	codagencons int not null primary key ,	
+	datcons date not null,
+	horacons time,
+	observacao varchar (255),
+	codpac int constraint age_codpac_fk references paciente(codpac),
+	codmed int constraint age_codmed_fk references medico(codmed)
+);
+
+select *
+from agendaConsulta
+insert into agendaConsulta (codagencons, datcons, horacons, observacao, codpac, codmed)
+values (1, '01/05/2026', 12:30, '(49)920039157');
+
+	
+	
